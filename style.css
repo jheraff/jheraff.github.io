@@ -1,0 +1,12 @@
+body{
+    background-image: url(assets/spacebackground.gif);
+}
+
+#white-text{
+    color: white;
+}
+
+#unmute-button{
+    padding: 10px 20px;
+    font-size: 16px;
+}

@@ -1,12 +1,55 @@
+* {
+    box-sizing: border-box;
+}
+
 body{
     background-image: url(assets/spacebackground.gif);
 }
 
-#white-text{
-    color: white;
+.container {
+    align-items: center;
+    background-color: #111;
+    color: #dedede;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
 }
 
-#unmute-button{
-    padding: 10px 20px;
-    font-size: 16px;
+.profile-img {
+    border-radius: 50%;
+    width: 125px;
+}
+
+.profile-name {
+    font-size: 25px;
+    margin-bottom: 50px;
+}
+
+.link {
+    border: 1px solid #dedede;
+    border-radius: 10px;
+    color: #dedede;
+    display: flex;
+    height: 55px;
+    justify-content: center;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    align-items: center;
+    transition: transform .4s;
+}
+
+.link:hover {
+    transform: scale(1.1);
+}
+
+.link-icon {
+    width: 50px;
+    position: absolute;
+    left: 10px;
 }

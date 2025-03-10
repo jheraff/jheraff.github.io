@@ -3,36 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jheraff's Profile</title>
+    <link rel="icon" type="image/x-icon" href="assets/bingo.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="assets/profile.jpg">
+    <title>Jheraff's Personal Website</title>
 </head>
-<body>
-    <div class="container">
-        <img class="profile-img" src="assets/profile.jpg" target="_blank" />
-        <h1 class="profile-name">@jheraff</h1>
 
-        <a class="link" href="https://github.com/jheraff" target="_blank">
-            <img class="link-icon" src="assets/profile.jpg" alt="github-icon"/>
-            <span class="link-title">Github</span>
-        </a>
-        <a class="link" href="https://github.com/jheraff" target="_blank">
-            <img class="link-icon" src="assets/profile.jpg" alt="github-icon"/>
-            <span class="link-title">Twitter</span>
-        </a>
-        <a class="link" href="https://github.com/jheraff" target="_blank">
-            <img class="link-icon" src="assets/profile.jpg" alt="github-icon"/>
-            <span class="link-title">Youtube</span>
-        </a>
-        <a class="link" href="https://github.com/jheraff" target="_blank">
-            <img class="link-icon" src="assets/profile.jpg" alt="github-icon"/>
-            <span class="link-title">Anilist</span>
-        </a>
-        <a class="link" href="https://github.com/jheraff" target="_blank">
-            <img class="link-icon" src="assets/profile.jpg" alt="github-icon"/>
-            <span class="link-title">Manga Collection</span>
-        </a>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="welcome">-=-=- Welcome to My Website -=-=-</div>
+            <div class="construction">
+                <img src="assets/construct.gif" alt="Under Construction" />
+            </div>
+        </div>
+        
+        <div class="marquee">
+            <p>Welcome to my personal website! Thanks for visiting! </p>
+        </div>
+        
+        <div class="navigation">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT ME</a></li>
+                <li><a href="blog.html">MY BLOG</a></li>
+                <li><a href="projects.html">COOL PROJECTS</a></li>
+                <li><a href="memes.html">FUNNY MEMES</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <img class="profile-pic" src="assets/profile.jpg" alt="Cool Picture" />
+            <p>Welcome to my personal website!</p>
+            <p>Last updated: <span class="blink">03/09/2025</span></p>
+            <p>What's new: Added the memes page!</p>
+        </div>
+
+        <div id="adminLink" style="text-align: center; margin: 30px 0; padding: 15px; border: 1px solid transparent; background-color: transparent;">
+            <span style="color: transparent; cursor: default;" ondblclick="showAdminPrompt()">Admin Access</span>
+        </div>
+        
+        <div class="footer">
+            <p>Copyright © 2025 - All Rights Reserved</p>
+            <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #00FFFF;">Email</a></p>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script src="admin-config.js"></script>
+    
+    <script>
+        function showAdminPrompt() {
+            const password = prompt("Enter admin password to access admin panel:", "");
+            
+            if (password === ADMIN_CONFIG.password) {
+                window.location.href = "admin.html";
+            } else if (password !== null) {
+                alert("Incorrect password! Access denied!");
+            }
+        }
+        
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === konamiCode[konamiIndex] || 
+                (e.key.toLowerCase() === konamiCode[konamiIndex])) {
+                konamiIndex++;
+                
+                if (konamiIndex === konamiCode.length) {
+                    konamiIndex = 0;
+                    
+                    const adminLink = document.getElementById('adminLink');
+                    adminLink.style.border = "3px dashed #FF0000";
+                    adminLink.style.backgroundColor = "rgba(102, 0, 0, 0.7)";
+                    adminLink.innerHTML = '<a href="admin.html" style="color: #FFFF00; font-weight: bold; text-decoration: none;">★★★ WEBMASTER ADMIN PANEL ★★★</a>';
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+    </script>
+    <script src="cursor-trail.js"></script>
 </body>
 </html>

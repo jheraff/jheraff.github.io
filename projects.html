@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/bingo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Cool Projects</title>
+</head>
+
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="welcome">-=-=- Cool Projects -=-=-</div>
+        </div>
+
+        <div class="navigation">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT ME</a></li>
+                <li><a href="blog.html">MY BLOG</a></li>
+                <li><a href="projects.html">COOL PROJECTS</a></li>
+                <li><a href="memes.html">FUNNY MEMES</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <p>These are some of the cool coding and creative projects I've been working on!</p>
+        </div>
+
+        <div id="projectsList">
+            <!-- This will be populated with projects from localStorage -->
+            <div class="project" id="noProjects" style="text-align: center;">
+                <h2 class="project-title">No Projects Yet!</h2>
+                <div class="project-content">
+                    <p>There are no projects to display yet. Check back soon for updates!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="coming-soon">
+            <h3 style="color: #22ba96;" class="blink">Coming Soon!</h3>
+            <p>Here are some projects that I am considering in starting:</p>
+            <ul style="text-align: left; display: inline-block;">
+                <li>Minecraft Mod</li>
+                <li>Cooking Game</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Copyright © 2025 - All Rights Reserved</p>
+            <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #00FFFF;">Email</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const allProjects = JSON.parse(localStorage.getItem('projects')) || [];
+            const projectsContainer = document.getElementById('projectsList');
+
+            if (allProjects.length > 0) {
+                projectsContainer.innerHTML = '';
+
+                allProjects.forEach(project => {
+                    let statusColor = "#006600"; 
+
+                    if (project.status === "in-progress") {
+                        statusColor = "#996600";
+                    } else if (project.status === "planning") {
+                        statusColor = "#990000"; 
+                    }
+
+                    const statusText = project.status
+                        .split('-')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ');
+
+                    const projectHTML = `
+                <div class="project">
+                    <h2 class="project-title">
+                        ${project.title}
+                        <span class="project-status" style="background-color: ${statusColor};">${statusText}</span>
+                    </h2>
+                    <div class="project-content">
+                        ${project.content}
+                    </div>
+                    ${project.links ? `<div class="project-links">${project.links}</div>` : ''}
+                </div>
+            `;
+
+                    projectsContainer.innerHTML += projectHTML;
+                });
+            } else {
+                document.getElementById('noProjects').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/bingo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Funny Memes</title>
+</head>
+
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="welcome">-=-=- Funny Memes -=-=-</div>
+        </div>
+
+        <div class="navigation">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT ME</a></li>
+                <li><a href="blog.html">MY BLOG</a></li>
+                <li><a href="projects.html">COOL PROJECTS</a></li>
+                <li><a href="memes.html">FUNNY MEMES</a></li>
+            </ul>
+        </div>
+
+        <div class="updates-banner">
+            <span class="blink" id="lastUpdated">NEW MEMES ADDED!</span>
+        </div>
+
+        <div class="meme-intro">
+            <p>My collection of haha images</p>
+        </div>
+
+        <div class="meme-grid" id="memeGrid">
+            <div class="meme-card" id="noMemes" style="grid-column: span 2; text-align: center;">
+                <div style="padding: 20px;">
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <button id="loadMoreButton"
+                style="background-color: #006699; color: white; border: 3px outset #00CCFF; padding: 10px 20px; font-family: 'Comic Sans MS'; font-weight: bold; font-size: 16px; display: none;">Load
+                More Memes!</button>
+        </div>
+
+        <div class="footer">
+            <p>Copyright © 2025 - All Rights Reserved</p>
+            <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #00FFFF;">Email</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const allMemes = JSON.parse(localStorage.getItem('memes')) || [];
+            const memeGrid = document.getElementById('memeGrid');
+            const loadMoreButton = document.getElementById('loadMoreButton');
+            const noMemesDiv = document.getElementById('noMemes');
+
+            if (allMemes.length > 0) {
+                const sortedMemes = [...allMemes].sort((a, b) => new Date(b.date) - new Date(a.date));
+                const latestMeme = sortedMemes[0];
+                document.getElementById('lastUpdated').textContent = `NEW MEMES ADDED! (Last update: ${latestMeme.date})`;
+            }
+
+            const memesPerPage = 8;
+            let currentPage = 1;
+
+            function displayMemes() {
+                memeGrid.innerHTML = '';
+
+                if (allMemes.length === 0) {
+                    memeGrid.appendChild(noMemesDiv);
+                    loadMoreButton.style.display = 'none';
+                    return;
+                }
+
+                const endIndex = Math.min(currentPage * memesPerPage, allMemes.length);
+                const memesToShow = allMemes.slice(0, endIndex);
+
+                memesToShow.forEach(meme => {
+                    const memeCard = document.createElement('div');
+                    memeCard.className = 'meme-card';
+                    memeCard.dataset.id = meme.id;
+
+                    const captionHTML = meme.caption ?
+                        `<div class="meme-caption">"${meme.caption}"</div>` : '';
+
+                    memeCard.innerHTML = `
+                <img class="meme-image" src="${meme.image}" alt="Funny meme" />
+                ${captionHTML}
+            `;
+
+                    memeGrid.appendChild(memeCard);
+                });
+
+                if (endIndex < allMemes.length) {
+                    loadMoreButton.style.display = 'inline-block';
+                } else {
+                    loadMoreButton.style.display = 'none';
+                }
+            }
+
+            loadMoreButton.addEventListener('click', function () {
+                currentPage++;
+                displayMemes();
+            });
+
+            displayMemes();
+        });
+    </script>
+</body>
+
+</html>

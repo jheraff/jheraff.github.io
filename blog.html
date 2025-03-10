@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/bingo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>My Blog</title>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="welcome">-=-=- My Blog -=-=-</div>
+        </div>
+        
+        <div class="navigation">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT ME</a></li>
+                <li><a href="blog.html" class="active">MY BLOG</a></li>
+                <li><a href="projects.html">COOL PROJECTS</a></li>
+                <li><a href="memes.html">FUNNY MEMES</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <p><img src="assets/azumangaosaka.gif" alt="Dance Monkey" /><span class="blink" style="color: #FF0000;">NEW BLOG POST!</span>
+                <img src="assets/azumangaosaka.gif" alt="Dance Monkey" /></p>
+        </div>
+        
+        <div id="filterNotice" style="display: none; margin: 15px 0; padding: 8px; background-color: rgba(102, 0, 102, 0.7); border: 1px dashed #FFFF00;">
+            <p>Currently showing posts from: <span id="currentFilter" style="font-weight: bold; color: #00FFFF;"></span></p>
+            <button onclick="clearFilter()" style="background-color: #660000; color: white; border: 2px outset #FF0000; padding: 3px 10px; font-family: 'Comic Sans MS'; cursor: pointer; margin-top: 5px;">Show All Posts</button>
+        </div>
+        
+        <div id="blogPosts">
+            <div class="blog-entry" id="noPosts" style="text-align: center;">
+                <div class="blog-content">
+                </div>
+            </div>
+        </div>
+        
+        <div class="archive">
+            <h3 style="color: #ca35ac;">Blog Archive</h3>
+            <ul id="archiveList">
+                <li>Loading archive...</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Copyright © 2025 - All Rights Reserved</p>
+            <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #00FFFF;">Email</a></p>
+        </div>
+    </div>
+    
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        
+        function formatMonthYear(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+        }
+        
+        function getYearMonth(dateString) {
+            const date = new Date(dateString);
+            return {
+                year: date.getFullYear(),
+                month: date.getMonth()
+            };
+        }
+        
+        function clearFilter() {
+            window.location.href = 'blog.html';
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const allBlogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+            const blogPostsContainer = document.getElementById('blogPosts');
+            const filterNotice = document.getElementById('filterNotice');
+            const currentFilter = document.getElementById('currentFilter');
+            
+            const filterMonth = getQueryParam('month');
+            const filterYear = getQueryParam('year');
+            
+            let filteredPosts = allBlogPosts;
+            let filterDescription = '';
+            
+            if (filterMonth && filterYear) {
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                filterDescription = `${monthNames[parseInt(filterMonth) - 1]} ${filterYear}`;
+                
+                filteredPosts = allBlogPosts.filter(post => {
+                    const postDate = new Date(post.date);
+                    return (postDate.getFullYear() === parseInt(filterYear) && 
+                            postDate.getMonth() === parseInt(filterMonth) - 1);
+                });
+                
+                currentFilter.textContent = filterDescription;
+                filterNotice.style.display = 'block';
+            }
+            
+            if (filteredPosts.length > 0) {
+                blogPostsContainer.innerHTML = '';
+                
+                filteredPosts.forEach(post => {
+                    const postHTML = `
+                        <div class="blog-entry">
+                            <h2 class="blog-title">${post.title}</h2>
+                            <div class="blog-date">Posted on: ${post.date}</div>
+                            <div class="blog-content">${post.content}</div>
+                        </div>
+                    `;
+                    
+                    blogPostsContainer.innerHTML += postHTML;
+                });
+            } else if (filterMonth && filterYear) {
+                blogPostsContainer.innerHTML = `
+                    <div class="blog-entry" style="text-align: center;">
+                        <h2 class="blog-title">No Posts Found</h2>
+                        <div class="blog-content">
+                            <p>There are no posts for ${filterDescription}.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (allBlogPosts.length === 0) {
+                document.getElementById('noPosts').style.display = 'block';
+            }
+            
+            const archiveList = document.getElementById('archiveList');
+            
+            if (allBlogPosts.length > 0) {
+                const archiveGroups = {};
+                
+                allBlogPosts.forEach(post => {
+                    const dateInfo = getYearMonth(post.date);
+                    const yearMonth = `${dateInfo.year}-${dateInfo.month + 1}`;
+                    
+                    if (!archiveGroups[yearMonth]) {
+                        archiveGroups[yearMonth] = {
+                            year: dateInfo.year,
+                            month: dateInfo.month,
+                            count: 0
+                        };
+                    }
+                    
+                    archiveGroups[yearMonth].count++;
+                });
+                
+                const sortedGroups = Object.values(archiveGroups).sort((a, b) => {
+                    if (a.year !== b.year) return b.year - a.year;
+                    return b.month - a.month;
+                });
+                
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                
+                let archiveHTML = '';
+                sortedGroups.forEach(group => {
+                    const monthName = monthNames[group.month];
+                    archiveHTML += `<li>► <a href="blog.html?year=${group.year}&month=${group.month + 1}">${monthName} ${group.year}</a> (${group.count} post${group.count !== 1 ? 's' : ''})</li>`;
+                });
+                
+                archiveList.innerHTML = archiveHTML;
+            } else {
+                archiveList.innerHTML = '<li>No archives available yet</li>';
+            }
+        });
+    </script>
+</body>
+</html>

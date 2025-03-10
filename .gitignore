@@ -1,0 +1,22 @@
+# Ignore admin configuration file with credentials
+admin-config.js
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# Ignore common editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore log files
+*.log

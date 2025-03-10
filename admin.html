@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webmaster Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .section-tabs {
+            display: flex;
+            margin: 20px 0;
+            border-bottom: 2px solid #FF9900;
+            padding-bottom: 5px;
+        }
+
+        .section-tab {
+            background-color: #000066;
+            color: #00FFFF;
+            border: 2px outset #0000FF;
+            padding: 8px 20px;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .section-tab.active {
+            background-color: #0000CC;
+            border: 2px inset #0000FF;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .meme-form,
+        .project-form {
+            margin-top: 20px;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            border: 2px solid #00FFFF;
+            margin: 10px 0;
+        }
+
+        .status-select {
+            padding: 5px;
+            background-color: #000033;
+            color: white;
+            border: 1px solid #00FFFF;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="welcome">-=-=- Webmaster Admin Panel -=-=-</div>
+        </div>
+
+        <div class="navigation">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT ME</a></li>
+                <li><a href="blog.html">MY BLOG</a></li>
+                <li><a href="projects.html">COOL PROJECTS</a></li>
+                <li><a href="memes.html">FUNNY MEMES</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <p><span class="blink" style="color: #FF0000;">⚠️ ADMIN AREA - AUTHORIZED ACCESS ONLY ⚠️</span></p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            Invalid username or password! Access denied!
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Operation completed successfully!
+        </div>
+
+        <div class="login-form" id="loginForm">
+            <h3 style="color: #00FFFF;">Admin Login</h3>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter admin username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter admin password">
+            </div>
+            <button class="login-button" id="loginButton">Log In</button>
+        </div>
+
+        <div class="admin-panel" id="adminPanel">
+            <div class="section-tabs">
+                <button class="section-tab active" id="blogTab">Blog Posts</button>
+                <button class="section-tab" id="projectsTab">Cool Projects</button>
+                <button class="section-tab" id="memesTab">Funny Memes</button>
+            </div>
+
+            <div class="section-content active" id="blogSection">
+                <div class="tab-buttons">
+                    <button class="tab-button active" id="newPostTab">Add New Post</button>
+                    <button class="tab-button" id="managePostsTab">Manage Existing Posts</button>
+                </div>
+
+                <div class="tab-content active" id="newPostContent">
+                    <h3 style="color: #FFFF00;">Add New Blog Post</h3>
+                    <div class="post-form">
+                        <div class="form-group">
+                            <label for="postTitle">Post Title:</label>
+                            <input type="text" id="postTitle" placeholder="Enter post title">
+                        </div>
+                        <div class="form-group">
+                            <label for="postContent">Post Content:</label>
+                            <textarea id="postContent" placeholder="Write your blog post here..."></textarea>
+                        </div>
+                        <button class="post-button" id="postButton">Add Blog Post</button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="managePostsContent">
+                    <h3 style="color: #FFFF00;">Manage Existing Posts</h3>
+                    <div class="existing-posts" id="existingPosts">
+                        <p>Loading posts...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-content" id="projectsSection">
+                <div class="tab-buttons">
+                    <button class="tab-button active" id="newProjectTab">Add New Project</button>
+                    <button class="tab-button" id="manageProjectsTab">Manage Projects</button>
+                </div>
+
+                <div class="tab-content active" id="newProjectContent">
+                    <h3 style="color: #FFFF00;">Add New Project</h3>
+                    <div class="project-form">
+                        <div class="form-group">
+                            <label for="projectTitle">Project Title:</label>
+                            <input type="text" id="projectTitle" placeholder="Enter project title">
+                        </div>
+                        <div class="form-group">
+                            <label for="projectStatus">Project Status:</label>
+                            <select id="projectStatus" class="status-select">
+                                <option value="completed">Completed</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="planning">Planning</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectContent">Project Description:</label>
+                            <textarea id="projectContent" placeholder="Describe your project here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectLinks">Additional Information:</label>
+                            <textarea id="projectLinks"
+                                placeholder="Add any additional information, links, or resources here"></textarea>
+                        </div>
+                        <button class="post-button" id="projectButton">Add Project</button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="manageProjectsContent">
+                    <h3 style="color: #FFFF00;">Manage Existing Projects</h3>
+                    <div class="existing-projects" id="existingProjects">
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-content" id="memesSection">
+                <div class="tab-buttons">
+                    <button class="tab-button active" id="newMemeTab">Add New Meme</button>
+                    <button class="tab-button" id="manageMemesTab">Manage Memes</button>
+                </div>
+
+                <div class="tab-content active" id="newMemeContent">
+                    <h3 style="color: #FFFF00;">Add New Meme</h3>
+                    <div class="meme-form">
+                        <div class="form-group">
+                            <label for="memeCaption">Meme Caption (optional):</label>
+                            <input type="text" id="memeCaption" placeholder="Enter funny caption">
+                        </div>
+                        <div class="form-group">
+                            <label for="memeImage">Meme Image URL:</label>
+                            <input type="text" id="memeImage" placeholder="Enter image URL (e.g., Imgur link)">
+                            <div id="memePreview"></div>
+                        </div>
+                        <button class="post-button" id="memeButton">Add Meme</button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="manageMemesContent">
+                    <h3 style="color: #FFFF00;">Manage Existing Memes</h3>
+                    <div class="existing-memes" id="existingMemes">
+                        <p>Loading memes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="logout-button" id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="confirm-dialog" id="confirmDialog">
+        <h3 style="color: #FF0000;">Are you sure?</h3>
+        <p>Do you really want to delete this item?</p>
+        <p>This action cannot be undone!</p>
+        <div class="confirm-buttons">
+            <button class="confirm-yes" id="confirmYes">Yes, Delete It!</button>
+            <button class="confirm-no" id="confirmNo">No, Keep It</button>
+        </div>
+    </div>
+
+    <script>
+        console.log("HTML page loaded, checking for admin config...");
+        window.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (typeof ADMIN_CONFIG === 'undefined') {
+                    console.error("ERROR: ADMIN_CONFIG is undefined. The admin-config.js file might not be loading correctly.");
+                    alert("Admin configuration not loaded. Check browser console for details.");
+                } else {
+                    console.log("Admin config successfully loaded!");
+                }
+            }, 500);
+        });
+    </script>
+
+    <script src="admin-config.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+
+</html>
